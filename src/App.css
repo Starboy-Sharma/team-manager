@@ -6,3 +6,7 @@
 .card-collection .card {
   cursor: pointer;
 }
+
+.selected {
+  border: 2px solid black !important;
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import femaleImg  from '../images/female.jpg';
 import maleImg  from '../images/male.jpg';
 
@@ -105,6 +105,20 @@ const Employees = (): JSX.Element => {
     setTeam(e.target.value);
   };
 
+  const addEmployeeInTeam = (index: number) => {
+
+    // If user already exists in the team then remove it from the team
+
+    if (employees[index].teamName === selectedTeam) {
+      delete employees[index].teamName;
+    } else {
+      employees[index].teamName = selectedTeam;
+    }
+
+     setEmployees([...employees]);
+
+  }
+
   return <main className="container">
 
     <div className="row justify-content-center mt-3 mb-3">
@@ -121,16 +135,15 @@ const Employees = (): JSX.Element => {
     <div className="row justify-content-center mt-3 mb-3">
       <div className="col-8">
         <div className="card-collection">
-          {employees.map(employee => <>
-            <div id={employee.id.toString()} className="card m-2">
-
+          {employees.map((employee, index) => <div key={index.toString()}>
+            <div id={employee.id.toString()} className={`card m-2 ${(employee.teamName === selectedTeam) ? 'selected': ''}`} onClick={() => addEmployeeInTeam(index)}>
               <img src={employee.gender === 'male' ? maleImg : femaleImg } alt="Female Image" className="card-img-top" />
               <div className="card-body">
                 <h5 className="card-title"> Full Name: {employee.fullName} </h5>
                 <p className="card-text"> <b> Designation: </b> {employee.designation} </p>
               </div>
             </div>  
-          </>)}
+          </div>)}
         </div>
       </div>
     </div>
